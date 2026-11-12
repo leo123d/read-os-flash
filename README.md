@@ -34,6 +34,10 @@ python -m esptool --chip esp32s3 merge-bin \
 
 源码：https://github.com/leo123d/read-os （私有）
 
+## 交接
+
+改动、构建、发布流程与待办都在 [HANDOFF.md](HANDOFF.md)。
+
 ## 许可
 
 页面代码随本仓库；ESP Web Tools 为 Apache-2.0；固件基于 MindReset 的 Read Pico 演示固件（Apache-2.0）。
