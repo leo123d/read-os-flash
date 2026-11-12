@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>小纸 Pico · 网页刷写</title>
+<style>
+  :root { color-scheme: light; }
+  body {
+    margin: 0; min-height: 100vh;
+    background: #f4f2ee; color: #1a1a1a;
+    font: 15px/1.65 "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    display: flex; justify-content: center;
+  }
+  main { width: min(560px, 92vw); padding: 56px 0 72px; }
+  h1 { font-size: 22px; font-weight: 600; letter-spacing: .02em; margin: 0 0 6px; }
+  .sub { color: #6b6b6b; font-size: 13px; margin-bottom: 36px; }
+  .card {
+    background: #fff; border: 1px solid #dedbd4; border-radius: 10px;
+    padding: 26px 24px; margin-bottom: 18px;
+  }
+  .card h2 { font-size: 15px; font-weight: 600; margin: 0 0 14px; }
+  ol, ul { margin: 0; padding-left: 20px; }
+  li { margin: 6px 0; }
+  code {
+    font: 13px/1 ui-monospace, "SFMono-Regular", Consolas, monospace;
+    background: #f0eeea; padding: 2px 6px; border-radius: 4px;
+  }
+  .install { margin: 18px 0 4px; }
+  esp-web-install-button { display: inline-block; }
+  esp-web-install-button button,
+  .install button {
+    font: 600 15px/1 "PingFang SC", "Microsoft YaHei", sans-serif;
+    padding: 14px 26px; border-radius: 8px; cursor: pointer;
+    background: #1a1a1a; color: #fff; border: 1px solid #1a1a1a;
+    transition: background .15s ease;
+  }
+  esp-web-install-button button:hover,
+  .install button:hover { background: #333; }
+  esp-web-install-button [slot="unsupported"],
+  esp-web-install-button [slot="not-allowed"] {
+    display: block; color: #a33; font-size: 13px; padding: 10px 0;
+  }
+  .hint { color: #7a7a76; font-size: 13px; margin-top: 14px; }
+  .warn {
+    border-left: 3px solid #c9a227; background: #fdf8e8;
+    padding: 12px 14px; border-radius: 4px; font-size: 13px; color: #5c4d14;
+  }
+  .meta { color: #8a8a86; font-size: 12px; margin-top: 34px; }
+  details summary { cursor: pointer; color: #6b6b6b; font-size: 13px; }
+  pre {
+    background: #f0eeea; padding: 12px 14px; border-radius: 6px;
+    overflow-x: auto; font: 12px/1.5 ui-monospace, Consolas, monospace;
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>小纸 Pico · 只读固件</h1>
+  <div class="sub">浏览器直接烧写，不需要装 ESP-IDF，也不需要命令行。</div>
+
+  <div class="card">
+    <h2>烧写</h2>
+    <ol>
+      <li>用 <b>Chrome</b> 或 <b>Edge</b> 桌面版打开本页（Safari、Firefox 不支持串口）。</li>
+      <li>USB-C 数据线连上设备（不是充电线）。</li>
+      <li>点下面的按钮，在弹窗里选择串口（一般显示 <code>USB JTAG/serial debug unit</code>）。</li>
+      <li>等进度条走完，设备自动重启。</li>
+    </ol>
+    <div class="install">
+      <esp-web-install-button manifest="manifest.json">
+        <button slot="activate">连接设备并刷写</button>
+        <span slot="unsupported">当前浏览器不支持串口，请换 Chrome 或 Edge</span>
+        <span slot="not-allowed">本页需要 https 才能访问串口</span>
+      </esp-web-install-button>
+    </div>
+    <div class="hint">刷写会覆盖设备上的现有固件，卡片里的书和设置不会被擦除。</div>
+  </div>
+
+  <div class="card">
+    <h2>如果连不上</h2>
+    <ul>
+      <li>拔掉再插一次 USB，等两三秒让系统重新识别。</li>
+      <li>设备在休眠时 USB 会断开，先按一下电源键唤醒。</li>
+      <li>还是不行：<b>按住 BOOT 键</b>再插线，直接进下载模式。</li>
+      <li>端口被别的程序占着（串口监视器、IDE）时，先关掉它们。</li>
+    </ul>
+  </div>
+
+  <div class="warn">
+    这是个人改造固件，基于 MindReset 的 Read Pico 出厂演示固件（Apache-2.0）。
+    刷写有风险，自行承担；官方不提供支持。
+  </div>
+
+  <details>
+    <summary>没有浏览器串口？用命令行</summary>
+<pre>pip install esptool
+esptool --chip esp32s3 -p COM3 write-flash 0x0 read-os.bin</pre>
+  </details>
+
+  <div class="meta">
+    固件 2.32 MB · ESP32-S3 · 芯片型号必须一致<br>
+    源码与说明：github.com/leo123d/read-os
+  </div>
+</main>
+
+<script type="module" src="./esp-web-tools/install-button.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "小纸 Pico · 只读固件",
+  "version": "0.2.0",
+  "home_assistant_domain": "read-os",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32-S3",
+      "parts": [
+        { "path": "firmware/read-os.bin", "offset": 0 }
+      ]
+    }
+  ]
+}
